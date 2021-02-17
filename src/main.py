@@ -96,3 +96,10 @@ util.pretty_print_matrix_hex(add_key_rd1)
 
 print('\n\nRound 1 Results:')
 print(f'0x{aes.matrix_to_bytes(add_key_rd1).hex()}')
+
+with open('../data/result.txt', 'w') as writer:
+    writer.write('Plaintext: ' + plaintext + '\n')
+    writer.write('SubKey0: 0x' + subkeys[0] + '\n')
+    writer.write('SubKey1: 0x' + subkeys[1] + '\n\n')
+    writer.write('Round 1 Results:\n')
+    writer.write('0x' + aes.matrix_to_bytes(add_key_rd1).hex())

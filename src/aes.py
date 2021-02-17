@@ -1,5 +1,7 @@
 from copy import copy
 
+
+"""S-Box used in the SubBytes function"""
 s_box = (
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
     0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
@@ -21,18 +23,26 @@ s_box = (
 
 
 def bytes_to_matrix(byte_string):
+    """Converts a Python byte string into a 4x4 matrix"""
     return [list(byte_string[i:i + 4]) for i in range(0, len(byte_string), 4)]
 
 
 def matrix_to_bytes(matrix):
+    """Converts a 4x4 matrix into a Python bytes string"""
     return bytes(sum(matrix, []))
 
 
-def xor_bytes(s1, s2):
-    return bytes(x ^ y for x, y in zip(s1, s2))
+# def xor_bytes(s1, s2):
+#     return bytes(x ^ y for x, y in zip(s1, s2))
 
 
 def add_key(state_matrix, key_matrix):
+    """
+    Performs the AddKey operation in AES
+    :param state_matrix: the 4x4 state matrix to add the key to
+    :param key_matrix: the 4x4 subkey matrix
+    :return: the resulting 4x4 matrix
+    """
     result = []
     for i in range(4):
         result.append([])
@@ -43,6 +53,11 @@ def add_key(state_matrix, key_matrix):
 
 
 def sub_bytes(state_matrix):
+    """
+    Performs the SubBytes operation in AES
+    :param state_matrix: 4x4 state matrix
+    :return: the resulting 4x4 matrix
+    """
     result = []
     for i in range(4):
         result.append([])
@@ -53,6 +68,11 @@ def sub_bytes(state_matrix):
 
 
 def shift_rows(sm):
+    """
+    Performs the ShiftRows operation in AES
+    :param sm: the 4x4 state matrix
+    :return: the resulting 4x4 matrix
+    """
     """
         0,0   1,0   2,0   3,0
         0,1   1,1   2,1   3,1
@@ -73,6 +93,12 @@ def shift_rows(sm):
 
 
 def mix_columns(state_matrix):
+    """
+    The driver function for MixColumns in AES.
+    Sends each column of the input state matrix to the 'mix_column' function one at a time.
+    :param state_matrix: the 4x4 state matrix
+    :return: the resulting 4x4 matrix
+    """
     result = [None, None, None, None]
     for i in range(4):
         column = copy(state_matrix[i])
@@ -83,6 +109,11 @@ def mix_columns(state_matrix):
 
 
 def mix_column(col):
+    """
+    Performs the multiplication for MixColumns on a single column from the state matrix
+    :param col: column from the 4x4 state matrix
+    :return: the resulting column after multiplication
+    """
     """
         2 3 1 1
         1 2 3 1
@@ -100,6 +131,11 @@ def mix_column(col):
 
 
 def multiply_by_2(val):
+    """
+    Multiplies the input value by 2
+    :param val: value from one position in the column
+    :return: value after multiplying by 2
+    """
     s = val << 1
     s &= 0xff
     if (val & 128) != 0:
@@ -109,4 +145,9 @@ def multiply_by_2(val):
 
 
 def multiply_by_3(val):
+    """
+    Multiplies the input value by 3
+    :param val: value from one position in the column
+    :return: value after multiplying by 3
+    """
     return multiply_by_2(val) ^ val

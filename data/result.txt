@@ -1,0 +1,6 @@
+Plaintext: Two One Nine Two
+SubKey0: 0x5468617473206d79204b756e67204675
+SubKey1: 0xe232fcf191129188b159e4e6d679a293
+
+Round 1 Results:
+0x5847088b15b61cba59d4e2e8cd39dfce
