@@ -23,17 +23,13 @@ s_box = (
 
 
 def bytes_to_matrix(byte_string):
-    """Converts a Python byte string into a 4x4 matrix"""
+    """Converts a Python bytes string into a 4x4 matrix"""
     return [list(byte_string[i:i + 4]) for i in range(0, len(byte_string), 4)]
 
 
 def matrix_to_bytes(matrix):
     """Converts a 4x4 matrix into a Python bytes string"""
     return bytes(sum(matrix, []))
-
-
-# def xor_bytes(s1, s2):
-#     return bytes(x ^ y for x, y in zip(s1, s2))
 
 
 def add_key(state_matrix, key_matrix):
@@ -132,7 +128,7 @@ def mix_column(col):
 
 def multiply_by_2(val):
     """
-    Multiplies the input value by 2
+    Multiplies the input value by 2 over bytes in GF(2^8)
     :param val: value from one position in the column
     :return: value after multiplying by 2
     """
@@ -146,7 +142,7 @@ def multiply_by_2(val):
 
 def multiply_by_3(val):
     """
-    Multiplies the input value by 3
+    Multiplies the input value by 3 over bytes in GF(2^8)
     :param val: value from one position in the column
     :return: value after multiplying by 3
     """
